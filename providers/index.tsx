@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 import { AuthProvider } from "./auth-provider";
 
-export default function Providers({ children }: PropsWithChildren) {
+export default function AppProvider({ children }: PropsWithChildren) {
 	return <AuthProvider>{children}</AuthProvider>;
 }

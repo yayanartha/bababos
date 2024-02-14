@@ -1,9 +1,9 @@
 import { Text, View } from "react-native";
 
-export default function Index() {
+export default function Cart() {
 	return (
 		<View>
-			<Text>Home Screen</Text>
+			<Text>Shopping Cart</Text>
 		</View>
 	);
 }
