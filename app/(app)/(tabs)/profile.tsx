@@ -1,9 +1,12 @@
-import { Text, View } from "react-native";
+import { Link } from "expo-router";
+import { Button, View } from "react-native";
 
 export default function Profile() {
 	return (
 		<View>
-			<Text>Profile Screen</Text>
+			<Link href={"/login"} asChild>
+				<Button title="Login" />
+			</Link>
 		</View>
 	);
 }
