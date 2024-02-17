@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const productSchema = z.object({
+export const productSchema = z.object({
 	id: z.number(),
 	title: z.string(),
 	price: z.number(),
@@ -11,7 +11,7 @@ const productSchema = z.object({
 });
 export type Product = z.infer<typeof productSchema>;
 
-const productDetailSchema = z.object({
+export const productDetailSchema = z.object({
 	id: z.number(),
 	title: z.string(),
 	price: z.number(),
@@ -22,3 +22,10 @@ const productDetailSchema = z.object({
 	rating_count: z.number(),
 });
 export type ProductDetail = z.infer<typeof productDetailSchema>;
+
+export const productCartSchema = z.object({
+	id: z.number(),
+	title: z.string(),
+	price: z.number(),
+});
+export type ProductCart = z.infer<typeof productCartSchema>;
