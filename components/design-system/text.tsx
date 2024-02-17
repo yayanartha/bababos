@@ -3,7 +3,7 @@ import { Text as RNText, TextProps } from "react-native";
 const Text = ({ className, style, ...props }: TextProps) => {
 	return (
 		<RNText
-			className={`text-black ${className}`}
+			className={`text-base text-black ${className}`}
 			style={[{ fontFamily: "Gabarito-Regular" }, style]}
 			{...props}
 		/>
@@ -13,7 +13,7 @@ const Text = ({ className, style, ...props }: TextProps) => {
 const TextH1 = ({ className, style, ...props }: TextProps) => {
 	return (
 		<Text
-			className={`text-xl ${className}`}
+			className={`text-2xl ${className}`}
 			style={[{ fontFamily: "Gabarito-SemiBold" }, style]}
 			{...props}
 		/>
@@ -33,7 +33,7 @@ const TextButton = ({ className, style, ...props }: TextProps) => {
 const TextTitle = ({ className, style, ...props }: TextProps) => {
 	return (
 		<Text
-			className={`text-base leading-tight ${className}`}
+			className={`leading-tight ${className}`}
 			style={[{ fontFamily: "Gabarito-SemiBold" }, style]}
 			{...props}
 		/>

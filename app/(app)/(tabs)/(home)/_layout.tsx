@@ -12,8 +12,11 @@ export default function HomeLayout() {
 				}}
 			/>
 			<Stack.Screen
-				name="detail-[productId]"
-				options={{ title: "Product Detail" }}
+				name="product"
+				options={{
+					title: "Product Details",
+					headerRight: () => <ShoppingCartButton />,
+				}}
 			/>
 			<Stack.Screen name="cart" options={{ title: "Shopping Cart" }} />
 		</Stack>

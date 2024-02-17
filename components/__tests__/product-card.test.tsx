@@ -1,9 +1,14 @@
 import { cleanup, render, screen } from "@testing-library/react-native";
 import { ProductCard } from "../product-card";
 import { productsMock } from "@/__mocks__/products-mock";
+import { configureNumeral } from "@/utils/configure-numeral";
 
 describe("Product Card", () => {
 	afterEach(cleanup);
+
+	beforeAll(() => {
+		configureNumeral();
+	});
 
 	it("should render product card properly", () => {
 		const product = productsMock[0];
@@ -15,14 +20,14 @@ describe("Product Card", () => {
 		expect(screen.getByTestId("product-card-title").props.children).toEqual(
 			product.title,
 		);
-		expect(screen.getByTestId("product-card-category").props.children).toEqual(
-			product.category,
+		expect(screen.getByTestId("product-rate").props.children).toEqual(
+			product.rating.rate,
+		);
+		expect(screen.getByTestId("product-rate-count").props.children).toEqual(
+			`(${product.rating.count})`,
 		);
 		expect(screen.getByTestId("product-card-price").props.children).toEqual(
-			product.price,
-		);
-		expect(screen.getByTestId("product-card-rate").props.children).toEqual(
-			product.rating.rate,
+			`$${product.price}`,
 		);
 	});
 });

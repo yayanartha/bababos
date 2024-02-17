@@ -1,33 +1,34 @@
 import { Product } from "@/schemas/product-schema";
 import { Image } from "expo-image";
-import { Link, useRouter } from "expo-router";
-import { Pressable, StyleSheet, View, useWindowDimensions } from "react-native";
+import { TouchableOpacity, StyleSheet, View } from "react-native";
 import Text from "./design-system/text";
 import { AntDesign } from "@expo/vector-icons";
 import { colors } from "./design-system/colors";
+import { Link } from "expo-router";
+import { toCurrency } from "@/utils/currency";
+import { Rating } from "./rating";
 
-export const ProductCard = ({
-	id,
-	title,
-	category,
-	price,
-	image,
-	rating,
-}: Product) => {
-	const router = useRouter();
-	const { width: screenWidth } = useWindowDimensions();
-
-	const cardWidth = (screenWidth - 32 - 16) / 2;
+export const ProductCard = (props: Product) => {
+	const { id, title, category, price, image, rating, description } = props;
 
 	return (
 		<Link
 			href={{
-				pathname: "/(app)/(tabs)/(home)/detail-[productId]",
-				params: { productId: id },
+				pathname: `/(app)/(tabs)/(home)/product/${id}`,
+				params: {
+					title,
+					category,
+					price,
+					image,
+					rating_rate: rating.rate,
+					rating_count: rating.count,
+					description,
+				},
 			}}
 			asChild
 		>
-			<Pressable
+			<TouchableOpacity
+				testID="product-card"
 				className="rounded-xl bg-white overflow-hidden p-4"
 				style={{ gap: 8 }}
 			>
@@ -39,28 +40,24 @@ export const ProductCard = ({
 				/>
 
 				<View style={{ gap: 8 }}>
-					<View>
-						<Text.Button testID="product-card-title" numberOfLines={1}>
+					<View className="h-12">
+						<Text.Button testID="product-card-title" numberOfLines={2}>
 							{title}
 						</Text.Button>
-						<Text.Label testID="product-card-category">{category}</Text.Label>
 					</View>
 
 					<View className="flex-row items-center justify-between">
-						<View className="flex-row items-center" style={{ gap: 4 }}>
-							<AntDesign name="star" size={16} color={colors.yellow} />
-							<Text testID="product-card-rate">{rating.rate}</Text>
-						</View>
+						<Rating rate={rating.rate} count={rating.count} minimized />
 
 						<Text.Title
 							className="text-blue font-semibold"
 							testID="product-card-price"
 						>
-							${price}
+							{toCurrency(price)}
 						</Text.Title>
 					</View>
 				</View>
-			</Pressable>
+			</TouchableOpacity>
 		</Link>
 	);
 };

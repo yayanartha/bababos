@@ -12,6 +12,13 @@ export default function TabLayout() {
 					tabBarIcon: ({ color }) => (
 						<Feather name="home" color={color} size={20} />
 					),
+					tabBarLabelStyle: {
+						fontFamily: "Gabarito-SemiBold",
+						fontSize: 12,
+					},
+					tabBarItemStyle: {
+						gap: -12,
+					},
 				}}
 			/>
 			<Tabs.Screen
@@ -21,6 +28,13 @@ export default function TabLayout() {
 					tabBarIcon: ({ color }) => (
 						<Feather name="user" color={color} size={20} />
 					),
+					tabBarLabelStyle: {
+						fontFamily: "Gabarito-SemiBold",
+						fontSize: 12,
+					},
+					tabBarItemStyle: {
+						gap: -12,
+					},
 				}}
 			/>
 		</Tabs>
