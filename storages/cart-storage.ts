@@ -9,7 +9,7 @@ export const CartStorage = new MMKV({
 	id: "cart-storage",
 });
 
-export const useProductsInCart = (userId: number) =>
+export const useCartStorage = (userId: number) =>
 	useMMKVObject<ProductInCart[]>(
 		`${cartStorageKeys.PRODUCTS_IN_CART}-${userId}`,
 		CartStorage,

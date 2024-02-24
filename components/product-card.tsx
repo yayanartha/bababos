@@ -2,8 +2,6 @@ import { Product } from "@/schemas/product-schema";
 import { Image } from "expo-image";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
 import Text from "./design-system/text";
-import { AntDesign } from "@expo/vector-icons";
-import { colors } from "./design-system/colors";
 import { Link } from "expo-router";
 import { toCurrency } from "@/utils/currency";
 import { Rating } from "./rating";

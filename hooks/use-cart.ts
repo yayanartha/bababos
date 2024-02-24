@@ -1,10 +1,10 @@
 import { ProductInCart } from "@/schemas/cart-schema";
 import { ProductCart, ProductDetail } from "@/schemas/product-schema";
-import { useProductsInCart } from "@/storages/cart-storage";
+import { CartStorage, useCartStorage } from "@/storages/cart-storage";
 import { useCallback, useMemo } from "react";
 
 export const useCart = () => {
-	const [productsInCart, setProductsInCart] = useProductsInCart(1);
+	const [productsInCart, setProductsInCart] = useCartStorage(1);
 
 	const productsInCartMap: Map<number, ProductInCart> = useMemo(() => {
 		if (!productsInCart) return new Map([]);
@@ -22,6 +22,7 @@ export const useCart = () => {
 						id: product.id,
 						price: product.price,
 						title: product.title,
+						image: product.image,
 					},
 					qty: 1,
 				});
@@ -36,8 +37,8 @@ export const useCart = () => {
 	);
 
 	const removeQty = useCallback(
-		(product: ProductCart) => {
-			const p = productsInCartMap.get(product.id);
+		(productId: number) => {
+			const p = productsInCartMap.get(productId);
 
 			if (!p) {
 				return productsInCartMap;
@@ -46,13 +47,13 @@ export const useCart = () => {
 			const nextQty = p.qty - 1;
 
 			if (nextQty > 0) {
-				return productsInCartMap.set(product.id, {
+				return productsInCartMap.set(productId, {
 					...p,
 					qty: p.qty - 1,
 				});
 			}
 
-			return productsInCartMap.delete(product.id);
+			return productsInCartMap.delete(productId);
 		},
 		[productsInCartMap],
 	);
@@ -75,17 +76,33 @@ export const useCart = () => {
 	);
 
 	const removeFromCart = useCallback(
-		(product: ProductCart) => {
-			removeQty(product);
+		(productId: number) => {
+			removeQty(productId);
 			updateCart();
 		},
 		[removeQty, updateCart],
 	);
+
+	const checkout = useCallback(() => {
+		CartStorage.clearAll();
+	}, []);
+
+	const totalPrice = useMemo(() => {
+		let sum = 0;
+
+		for (const product of productsInCartMap) {
+			sum += product[1].product.price * product[1].qty;
+		}
+
+		return sum;
+	}, [productsInCartMap]);
 
 	return {
 		productsInCart,
 		productsInCartMap,
 		addToCart,
 		removeFromCart,
+		checkout,
+		totalPrice,
 	};
 };

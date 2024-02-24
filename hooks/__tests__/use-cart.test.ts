@@ -26,6 +26,7 @@ describe("use-cart", () => {
 					id: productsMock[1].id,
 					title: productsMock[1].title,
 					price: productsMock[1].price,
+					image: productsMock[1].image,
 				},
 				qty: 1,
 			},
@@ -39,6 +40,7 @@ describe("use-cart", () => {
 					id: productsMock[1].id,
 					title: productsMock[1].title,
 					price: productsMock[1].price,
+					image: productsMock[1].image,
 				},
 				qty: 1,
 			},
@@ -47,6 +49,7 @@ describe("use-cart", () => {
 					id: productsMock[2].id,
 					title: productsMock[2].title,
 					price: productsMock[2].price,
+					image: productsMock[2].image,
 				},
 				qty: 1,
 			},
@@ -60,6 +63,7 @@ describe("use-cart", () => {
 					id: productsMock[1].id,
 					title: productsMock[1].title,
 					price: productsMock[1].price,
+					image: productsMock[1].image,
 				},
 				qty: 2,
 			},
@@ -68,6 +72,7 @@ describe("use-cart", () => {
 					id: productsMock[2].id,
 					title: productsMock[2].title,
 					price: productsMock[2].price,
+					image: productsMock[2].image,
 				},
 				qty: 1,
 			},
@@ -82,13 +87,14 @@ describe("use-cart", () => {
 		act(() => result.current.addToCart(productsMock[2]));
 		act(() => result.current.addToCart(productsMock[1]));
 
-		act(() => result.current.removeFromCart(productsMock[1]));
+		act(() => result.current.removeFromCart(productsMock[1].id));
 		expect(getCartArray(result.current.productsInCartMap)).toEqual([
 			{
 				product: {
 					id: productsMock[1].id,
 					title: productsMock[1].title,
 					price: productsMock[1].price,
+					image: productsMock[1].image,
 				},
 				qty: 1,
 			},
@@ -97,24 +103,53 @@ describe("use-cart", () => {
 					id: productsMock[2].id,
 					title: productsMock[2].title,
 					price: productsMock[2].price,
+					image: productsMock[2].image,
 				},
 				qty: 1,
 			},
 		]);
 
-		act(() => result.current.removeFromCart(productsMock[1]));
+		act(() => result.current.removeFromCart(productsMock[1].id));
 		expect(getCartArray(result.current.productsInCartMap)).toEqual([
 			{
 				product: {
 					id: productsMock[2].id,
 					title: productsMock[2].title,
 					price: productsMock[2].price,
+					image: productsMock[2].image,
 				},
 				qty: 1,
 			},
 		]);
 
-		act(() => result.current.removeFromCart(productsMock[2]));
+		act(() => result.current.removeFromCart(productsMock[2].id));
 		expect(getCartArray(result.current.productsInCartMap)).toEqual([]);
+	});
+
+	it("should clear the cart after checkout", () => {
+		const { result } = renderHook(useCart);
+		expect(result.current.productsInCart).toEqual(undefined);
+
+		act(() => result.current.addToCart(productsMock[1]));
+		act(() => result.current.addToCart(productsMock[2]));
+		act(() => result.current.addToCart(productsMock[1]));
+
+		expect(result.current.productsInCart?.length).not.toEqual(0);
+
+		act(() => result.current.checkout());
+		expect(result.current.productsInCart?.length).toEqual(undefined);
+	});
+
+	it("should return the correct amount of total price", () => {
+		const { result } = renderHook(useCart);
+		expect(result.current.productsInCart).toEqual(undefined);
+
+		act(() => result.current.addToCart(productsMock[1]));
+		act(() => result.current.addToCart(productsMock[2]));
+		act(() => result.current.addToCart(productsMock[1]));
+
+		expect(result.current.totalPrice).toEqual(
+			productsMock[1].price * 2 + productsMock[2].price,
+		);
 	});
 });
